@@ -1,19 +1,22 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
 const isPublicRoute = createRouteMatcher([
-  '/api/webhook/clerk',
-  '/api/webhook/stripe',
-  '/api/uploadthing',
+  '/',                     // homepage
+  '/sign-in(.*)',          // Clerk signin page
+  '/sign-up(.*)',          // Clerk signup page
+  '/events(.*)',           // your events page
+  '/api/webhook/clerk',    // webhook must be public
+  '/api/webhook/stripe',   // optional
+  '/api/uploadthing',      // optional
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-  // Allow public routes to pass
+  // Allow public routes
   if (isPublicRoute(req)) return;
 
-  // New Clerk API: auth() resolves to a Promise → must await it
+  // Protect all other routes
   const session = await auth();
 
-  // If user not signed in, block access
   if (!session.userId) {
     return new Response("Unauthorized", { status: 401 });
   }
