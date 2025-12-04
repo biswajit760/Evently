@@ -5,10 +5,10 @@ import { formatDateTime } from '@/lib/utils';
 import { SearchParamProps } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
-import { auth } from '@clerk/nextjs/server'; // Import Clerk Auth
+import { auth } from '@clerk/nextjs/server'; // Import Clerk Server Auth
 
 const EventDetails = async ({ params, searchParams }: SearchParamProps) => {
-  // 1. Await params and searchParams (Required for Next.js 15+)
+  // Await params for Next.js 15+ compatibility
   const { id } = await params;
   const { page } = await searchParams;
 
@@ -20,8 +20,7 @@ const EventDetails = async ({ params, searchParams }: SearchParamProps) => {
     page: page as string,
   });
 
-  // 2. GET THE USER ID FROM SESSION
-  // We use sessionClaims because that's where the MongoDB _id is usually stored in this project setup
+  // CRITICAL FIX: Get User ID from Server Session
   const { sessionClaims } = await auth();
   const userId = sessionClaims?.userId as string;
 
@@ -63,10 +62,10 @@ const EventDetails = async ({ params, searchParams }: SearchParamProps) => {
               </div>
             </div>
 
-            {/* CHECKOUT BUTTON - PASSING USER ID NOW */}
+            {/* CHECKOUT BUTTON: Pass userId prop here */}
             <CheckoutButton event={event} userId={userId} />
 
-            {/* LOGISTICS CARD (Date & Location) */}
+            {/* LOGISTICS CARD */}
             <div className="grid grid-cols-1 gap-5 rounded-2xl bg-gray-50 p-5 border border-gray-100">
               
               {/* Date Row */}

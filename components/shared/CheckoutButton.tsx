@@ -1,15 +1,14 @@
 'use client'
 
 import { IEvent } from '@/lib/database/models/event.model'
-import { SignedIn, SignedOut, useUser } from '@clerk/nextjs'
+import { SignedIn, SignedOut } from '@clerk/nextjs'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button'
 import Checkout from './Checkout'
 
-// FIX: Update props to accept userId
+// CRITICAL FIX: Accept userId as a prop
 const CheckoutButton = ({ event, userId }: { event: IEvent, userId: string }) => {
-  const { user } = useUser();
   const hasEventFinished = new Date(event.endDateTime) < new Date();
 
   return (
@@ -27,7 +26,7 @@ const CheckoutButton = ({ event, userId }: { event: IEvent, userId: string }) =>
           </SignedOut>
 
           <SignedIn>
-            {/* FIX: Pass the userId prop directly to Checkout */}
+            {/* Pass the userId prop directly to Checkout */}
             <Checkout event={event} userId={userId} />
           </SignedIn>
         </>
