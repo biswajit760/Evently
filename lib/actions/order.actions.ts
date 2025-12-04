@@ -10,6 +10,7 @@ import { handleError } from '../utils';
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
+  // Fix: Ensure price is a number
   const price = order.isFree ? 0 : Number(order.price) * 100;
 
   try {
@@ -56,4 +57,3 @@ export const createOrder = async (order: CreateOrderParams) => {
     handleError(error);
   }
 }
-// ... keep your other GET functions ...

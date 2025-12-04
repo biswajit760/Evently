@@ -5,6 +5,7 @@ import { formatDateTime } from '@/lib/utils';
 import { SearchParamProps } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { auth } from '@clerk/nextjs/server'; // Import Clerk Auth
 
 const EventDetails = async ({ params, searchParams }: SearchParamProps) => {
   // 1. Await params and searchParams (Required for Next.js 15+)
@@ -18,6 +19,11 @@ const EventDetails = async ({ params, searchParams }: SearchParamProps) => {
     eventId: event._id,
     page: page as string,
   });
+
+  // 2. GET THE USER ID FROM SESSION
+  // We use sessionClaims because that's where the MongoDB _id is usually stored in this project setup
+  const { sessionClaims } = await auth();
+  const userId = sessionClaims?.userId as string;
 
   return (
     <>
@@ -57,8 +63,8 @@ const EventDetails = async ({ params, searchParams }: SearchParamProps) => {
               </div>
             </div>
 
-            {/* CHECKOUT BUTTON PLACEHOLDER */}
-            <CheckoutButton event={event} />
+            {/* CHECKOUT BUTTON - PASSING USER ID NOW */}
+            <CheckoutButton event={event} userId={userId} />
 
             {/* LOGISTICS CARD (Date & Location) */}
             <div className="grid grid-cols-1 gap-5 rounded-2xl bg-gray-50 p-5 border border-gray-100">
@@ -104,8 +110,8 @@ const EventDetails = async ({ params, searchParams }: SearchParamProps) => {
               </p>
               {event.url && (
                  <Link href={event.url} target="_blank" className="mt-2 flex items-center gap-2 text-primary-500 hover:text-primary-600 font-medium transition-colors">
-                    <span>Visit Website</span>
-                    <Image src="/assets/icons/arrow.svg" alt="link" width={10} height={10} className="-rotate-45" />
+                   <span>Visit Website</span>
+                   <Image src="/assets/icons/arrow.svg" alt="link" width={10} height={10} className="-rotate-45" />
                  </Link>
               )}
             </div>

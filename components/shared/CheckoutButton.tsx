@@ -1,24 +1,25 @@
 'use client'
 
 import { IEvent } from '@/lib/database/models/event.model'
-import { SignedIn, SignedOut } from '@clerk/clerk-react'
-import { useUser } from '@clerk/nextjs'
+import { SignedIn, SignedOut, useUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button'
 import Checkout from './Checkout'
 
-const CheckoutButton = ({event}: {event: IEvent}) => {
-    const {user} = useUser();
-    const userId = user?.publicMetadata.userId as string;
-    const hasEventFinished = new Date(event.endDateTime) < new Date();
+// FIX: Update props to accept userId
+const CheckoutButton = ({ event, userId }: { event: IEvent, userId: string }) => {
+  const { user } = useUser();
+  const hasEventFinished = new Date(event.endDateTime) < new Date();
+
   return (
-    <div className="flex items-center gap-3" >{hasEventFinished ? (
+    <div className="flex items-center gap-3">
+      {hasEventFinished ? (
         <p className="p-2 text-red-400">Sorry, tickets are no longer available.</p>
-      ): (
+      ) : (
         <>
           <SignedOut>
-            <Button asChild className="button bg-purple-600 text-white rounded-full" size="lg">
+            <Button asChild className="button rounded-full" size="lg">
               <Link href="/sign-in">
                 Get Tickets
               </Link>
@@ -26,10 +27,12 @@ const CheckoutButton = ({event}: {event: IEvent}) => {
           </SignedOut>
 
           <SignedIn>
+            {/* FIX: Pass the userId prop directly to Checkout */}
             <Checkout event={event} userId={userId} />
           </SignedIn>
         </>
-      )}</div>
+      )}
+    </div>
   )
 }
 
