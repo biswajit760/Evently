@@ -8,7 +8,7 @@ import React from 'react'
 const NavItems = () => {
     const pathname = usePathname();
   return (
-    <ul className='md:flex-between gap-10 flex w-full flex-col items-start md:flex-row'>
+    <ul className='md:flex-between gap-10 flex w-full sm:hidden items-start md:flex-row'>
          {headerLinks.map((link)=>{
             const isActive = pathname === link.route;
             return(

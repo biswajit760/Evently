@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@import "uploadthing/tw/v4";
+/* If you need to import uploadthing css from node_modules, use a standard @import: */
+@import "../node_modules/@uploadthing/react/dist"; /* <-- depends on your project structure */
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -66,7 +71,7 @@
 
 * {
   list-style: none;
-  padding: 0;
+  padding: auto;
   margin: 0;
   scroll-behavior: smooth;
 }
@@ -370,6 +375,7 @@ body {
 
 /* input-field */
 .input-field {
+  width: 100%;
   background-color: #f9fafb; /* gray-50 */
   height: 54px;
   border-radius: 9999px;
@@ -423,7 +429,7 @@ body {
   border-radius: 9999px;
   height: 54px;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 24px;
   padding-left: 2rem;
   padding-right: 2rem;
