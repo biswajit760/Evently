@@ -6,14 +6,13 @@ import { clerkClient } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
-  // 1. Get the Secret from env
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
 
   if (!WEBHOOK_SECRET) {
     throw new Error('Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local')
   }
 
-  // 2. Get the headers
+  // 1. Get the headers
   const headerPayload = await headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
@@ -26,18 +25,17 @@ export async function POST(req: Request) {
     })
   }
 
-  // 3. Get the body
-  const payload = await req.json()
-  const body = JSON.stringify(payload);
-
-  // 4. Create a new Svix instance with your secret
+  // 2. GET THE RAW BODY (CRITICAL FIX)
+  // We use .text() instead of .json() so the signature matches exactly
+  const payload = await req.text()
+  
   const wh = new Webhook(WEBHOOK_SECRET);
 
   let evt: WebhookEvent
 
-  // 5. Verify the payload with the headers
+  // 3. Verify the payload
   try {
-    evt = wh.verify(body, {
+    evt = wh.verify(payload, {
       "svix-id": svix_id,
       "svix-timestamp": svix_timestamp,
       "svix-signature": svix_signature,
@@ -49,7 +47,7 @@ export async function POST(req: Request) {
     })
   }
 
-  // 6. Handle the event
+  // 4. Handle the event
   const eventType = evt.type;
 
   if (eventType === 'user.created') {
@@ -66,8 +64,8 @@ export async function POST(req: Request) {
 
     const newUser = await createUser(user);
 
-    // Update metadata in Clerk so we have the MongoDB ID available in sessions
     if (newUser) {
+      // 5. Update Clerk Metadata (Newer SDK pattern)
       const client = await clerkClient()
       
       await client.users.updateUserMetadata(id, {
