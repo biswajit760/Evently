@@ -1,14 +1,15 @@
 'use client'
 import { headerLinks } from '@/constants'
-import { link } from 'fs'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
 const NavItems = () => {
     const pathname = usePathname();
+    
   return (
-    <ul className='md:flex-between gap-10 flex w-full sm:hidden items-start md:flex-row'>
+    // Replaced Tailwind flex classes with 'custom-nav-list'
+    <ul className="custom-nav-list">
          {headerLinks.map((link)=>{
             const isActive = pathname === link.route;
             return(

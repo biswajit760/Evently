@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@import "tw-animate-css";
 @import "uploadthing/tw/v4";
 /* If you need to import uploadthing css from node_modules, use a standard @import: */
 @import "../node_modules/@uploadthing/react/dist"; /* <-- depends on your project structure */
@@ -70,15 +70,13 @@
 }
 
 * {
-  list-style: none;
-  padding: auto;
   margin: 0;
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-poppins)
-}
+  font-family: var(--font-poppins);
+  min-height: 100vh;}
 
 .filter-grey {
   filter: brightness(0) saturate(100%) invert(47%) sepia(0%) saturate(217%)
@@ -433,6 +431,7 @@ body {
   line-height: 24px;
   padding-left: 2rem;
   padding-right: 2rem;
+  background-color: #9810fa;
 }
 
 /* select-item */
@@ -455,7 +454,7 @@ body {
 /* ========================================== CLERK STYLES */
 /* Keep !important for third-party overrides */
 .cl-logoImage {
-  height: 38px;
+  height: 50px;
 }
 
 .cl-userButtonBox {
@@ -497,4 +496,71 @@ body {
 
 .react-datepicker__time-list-item--selected {
   background-color: #624cf5 !important;
+}
+
+.container {
+  display: flex;
+  flex-direction: row; /* Default: Row for Desktop */
+  gap: 20px;
+}
+
+/* Force Column on Tablet (iPad) and Mobile */
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+}
+
+
+/* globals.css */
+
+/* Default state (Mobile First): 
+   - Desktop nav is hidden
+   - Mobile trigger is visible 
+*/
+.nav-desktop-wrapper {
+  display: none;
+}
+
+.nav-mobile-trigger {
+  display: block;
+}
+
+/* Flex direction for the list items (Stack vertically on mobile) */
+.custom-nav-list {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem; /* equivalent to gap-5 */
+  margin-left: 1rem;
+}
+
+/* BREAKPOINT: 768px (Standard Tablet/Desktop split) */
+@media (min-width: 768px) {
+  
+  /* Show desktop nav */
+  .nav-desktop-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 20rem; 
+  }
+
+  /* Hide mobile trigger */
+  .nav-mobile-trigger {
+    display: none;
+  }
+
+  /* Change list direction to row for desktop */
+  .custom-nav-list {
+    flex-direction: row;
+    align-items: center; /* Center items vertically */
+    justify-content: space-between;
+  }
+}
+
+
+.alert-dialog{
+  margin-right: 50rem ;
 }

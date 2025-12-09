@@ -7,30 +7,40 @@ import React from 'react'
 import { Button } from '../ui/button'
 import Checkout from './Checkout'
 
-// CRITICAL FIX: Accept userId as a prop
 const CheckoutButton = ({ event, userId }: { event: IEvent, userId: string }) => {
   const hasEventFinished = new Date(event.endDateTime) < new Date();
 
+  // 1. CHECK: Is the current user the organizer?
+  // We use optional chaining (?.) to prevent crashes if organizer is missing
+  const isEventCreator = userId === event.organizer?._id?.toString();
+
+  // 3. Logic: If the user is the creator, hide everything
+  if (isEventCreator) {
+    return null; 
+  }
+
+  // 2. Logic: If the event is finished, show the closed message
+  if (hasEventFinished) {
+    return <p className="p-2 text-red-400">Sorry, tickets are no longer available.</p>;
+  }
+
+  
+
   return (
     <div className="flex items-center gap-3">
-      {hasEventFinished ? (
-        <p className="p-2 text-red-400">Sorry, tickets are no longer available.</p>
-      ) : (
-        <>
-          <SignedOut>
-            <Button asChild className="button rounded-full" size="lg">
-              <Link href="/sign-in">
-                Get Tickets
-              </Link>
-            </Button>
-          </SignedOut>
+      {/* If we are here, the user is NOT the creator and the event is NOT finished */}
+      
+      <SignedOut>
+        <Button asChild className="button bg-purple-600 rounded-full" size="lg">
+          <Link href="/sign-in">
+            Get Tickets
+          </Link>
+        </Button>
+      </SignedOut>
 
-          <SignedIn>
-            {/* Pass the userId prop directly to Checkout */}
-            <Checkout event={event} userId={userId} />
-          </SignedIn>
-        </>
-      )}
+      <SignedIn>
+        <Checkout event={event} userId={userId} />
+      </SignedIn>
     </div>
   )
 }

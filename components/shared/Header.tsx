@@ -5,7 +5,6 @@ import { Button } from "../ui/button"
 import NavItems from "./NavItems"
 import MobileNav from "./MobileNav"
 
-
 const Header = () => {
   return (
     <header className="w-full border-b">
@@ -18,16 +17,26 @@ const Header = () => {
         </Link>
 
         <SignedIn>
-          <nav className="md:flex-between sm:hidden gap-3 w-full max-w-xs md:flex">
+          {/* APPLY CUSTOM CSS HERE: 
+             This nav is hidden by default, becomes flex at 768px+ 
+          */}
+          <nav className="nav-desktop-wrapper">
             <NavItems />
           </nav>
         </SignedIn>
 
-        <div className="flex w-32 justify-end gap-3 ">
+        <div className="flex w-32 justify-end gap-3">
           <SignedIn>
-            <UserButton afterSignOutUrl="/"  />
-            <MobileNav  />
+            <UserButton afterSignOutUrl="/" />
+            
+            {/* APPLY CUSTOM CSS HERE:
+               This component is visible by default, becomes none at 768px+ 
+            */}
+            <div className="nav-mobile-trigger">
+               <MobileNav />
+            </div>
           </SignedIn>
+          
           <SignedOut>
             <Button asChild className="rounded-full bg-purple-600 w-24 text-white" size="lg">
               <Link href="/sign-in">

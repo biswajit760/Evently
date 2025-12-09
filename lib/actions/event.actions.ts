@@ -15,6 +15,10 @@ const populateEvents = async (query: any) => {
     .populate({ path: "organizer", model: User, select: "_id firstName lastName" });
 }
 
+const getCategoryByName = async (name: string) => {
+  return Category.findOne({ name: { $regex: name, $options: 'i' } })
+}
+
 // CREATE
 export async function createEvent({ userId, event, path }: CreateEventParams) {
   try {
@@ -103,14 +107,17 @@ export async function getAllEvents({ query, limit = 6, page, category }: GetAllE
   try {
     await connectToDatabase();
 
-    // Add your filtering conditions here (search, category, etc.)
-    const conditions: any = {};
+    const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {}
+    const categoryCondition = category ? await getCategoryByName(category) : null
+    const conditions = {
+      $and: [titleCondition, categoryCondition ? { category: categoryCondition._id } : {}],
+    }
+    const skipAmount = (Number(page) - 1) * limit
 
     const eventsQuery = Event.find(conditions)
       .sort({ createdAt: -1 })
       .limit(limit)
-      .skip(0); // Add pagination logic here (page-1) * limit if needed
-
+      .skip(skipAmount);
     const events = await populateEvents(eventsQuery);
     const eventsCount = await Event.countDocuments(conditions);
 
