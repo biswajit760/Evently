@@ -237,104 +237,113 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             <p className="text-slate-500 text-sm mt-1">Help attendees find their way.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-             {/* Location */}
-             <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel className="text-slate-700 font-semibold">Location</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <MapPin className={iconStyles} />
-                      <Input 
-                        {...field} 
-                        placeholder="City, venue, or online link..." 
-                        className="pl-12 h-12 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 font-medium"
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* URL */}
-            <FormField
-              control={form.control}
-              name="url"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel className="text-slate-700 font-semibold">Important Link <span className="text-slate-400 font-normal text-xs">(Optional)</span></FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <LinkIcon className={iconStyles} />
-                      <Input 
-                        {...field} 
-                        placeholder="https://..." 
-                        className="pl-12 h-12 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 font-medium"
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Start Date */}
-            <FormField
-              control={form.control}
-              name="startDateTime"
-              render={({ field }) => (
-                <FormItem className="relative z-20"> 
-                  <FormLabel className="text-slate-700 font-semibold">Start</FormLabel>
-                  <FormControl>
-                    <div className={inputStyles}>
-                      <CalendarIcon className="absolute left-4 top-3.5 h-5 w-5 text-indigo-500 z-10" />
-                      <div className="w-full">
-                        <DatePicker
-                          selected={field.value}
-                          onChange={(date) => field.onChange(date)}
-                          showTimeSelect
-                          dateFormat="MMMM d, yyyy - h:mm aa"
-                          wrapperClassName="w-full"
-                          className="w-full pl-12 bg-transparent outline-none text-slate-700 placeholder:text-slate-400 font-medium cursor-pointer h-12 py-3"
+          <div className="flex flex-col gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Location */}
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem className="col-span-2 md:col-span-1">
+                    <FormLabel className="text-slate-700 font-semibold">Location</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <MapPin className={iconStyles} />
+                        <Input
+                          {...field}
+                          placeholder="City, venue, or online link..."
+                          className="pl-12 h-12 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 font-medium"
                         />
                       </div>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* End Date */}
-            <FormField
-              control={form.control}
-              name="endDateTime"
-              render={({ field }) => (
-                <FormItem className="relative z-10">
-                  <FormLabel className="text-slate-700 font-semibold">End</FormLabel>
-                  <FormControl>
-                  <div className={inputStyles}>
-                      <CalendarIcon className="absolute left-4 top-3.5 h-5 w-5 text-gray-600 z-10" />
-                      <div className="w-full">
-                        <DatePicker
-                          selected={field.value}
-                          onChange={(date) => field.onChange(date)}
-                          showTimeSelect
-                          dateFormat="MMMM d, yyyy - h:mm aa"
-                          wrapperClassName="w-full"
-                          className="w-full pl-12 bg-transparent outline-none text-slate-700 placeholder:text-slate-400 font-medium cursor-pointer h-12 py-3" 
+              {/* URL */}
+              <FormField
+                control={form.control}
+                name="url"
+                render={({ field }) => (
+                  <FormItem className="col-span-2 md:col-span-1">
+                    <FormLabel className="text-slate-700 font-semibold">
+                      Important Link <span className="text-slate-400 font-normal text-xs">(Optional)</span>
+                    </FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <LinkIcon className={iconStyles} />
+                        <Input
+                          {...field}
+                          placeholder="https://..."
+                          className="pl-12 h-12 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 font-medium"
                         />
                       </div>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* DATE PICKERS - Fixed for Mobile */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Start Date */}
+              <FormField
+                control={form.control}
+                name="startDateTime"
+                render={({ field }) => (
+                  <FormItem className="w-full relative z-20"> 
+                    <FormLabel className="text-slate-700 font-semibold">Start</FormLabel>
+                    <FormControl>
+                      <div className={inputStyles}>
+                        <CalendarIcon className="absolute left-4 top-3.5 h-5 w-5 text-indigo-500 z-10" />
+                        {/* Added flex-1 and w-full to ensure it fills the parent container */}
+                        <div className="flex-1 w-full"> 
+                          <DatePicker
+                            selected={field.value}
+                            onChange={(date) => field.onChange(date)}
+                            showTimeSelect
+                            dateFormat="MMMM d, yyyy - h:mm aa"
+                            wrapperClassName="w-full datePickerWrapper" // Helper class
+                            className="w-full pl-12 bg-transparent outline-none text-slate-700 placeholder:text-slate-400 font-medium cursor-pointer h-12 py-3"
+                          />
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* End Date */}
+              <FormField
+                control={form.control}
+                name="endDateTime"
+                render={({ field }) => (
+                  <FormItem className="w-full relative z-10">
+                    <FormLabel className="text-slate-700 font-semibold">End</FormLabel>
+                    <FormControl>
+                      <div className={inputStyles}>
+                        <CalendarIcon className="absolute left-4 top-3.5 h-5 w-5 text-gray-600 z-10" />
+                         {/* Added flex-1 and w-full here as well */}
+                        <div className="flex-1 w-full">
+                          <DatePicker
+                            selected={field.value}
+                            onChange={(date) => field.onChange(date)}
+                            showTimeSelect
+                            dateFormat="MMMM d, yyyy - h:mm aa"
+                            wrapperClassName="w-full datePickerWrapper" 
+                            className="w-full pl-12 bg-transparent outline-none text-slate-700 placeholder:text-slate-400 font-medium cursor-pointer h-12 py-3"
+                          />
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
         </div>
 
