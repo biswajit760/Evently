@@ -6,6 +6,7 @@ import { SearchParamProps } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { auth } from '@clerk/nextjs/server'; // Import Clerk Server Auth
+import ShareEventButton from '@/components/shared/ShareEventButton';
 
 const EventDetails = async ({ params, searchParams }: SearchParamProps) => {
   // Await params for Next.js 15+ compatibility
@@ -23,6 +24,7 @@ const EventDetails = async ({ params, searchParams }: SearchParamProps) => {
   // CRITICAL FIX: Get User ID from Server Session
   const { sessionClaims } = await auth();
   const userId = sessionClaims?.userId as string;
+
 
   return (
     <>
@@ -114,7 +116,7 @@ const EventDetails = async ({ params, searchParams }: SearchParamProps) => {
                  </Link>
               )}
             </div>
-
+              <ShareEventButton eventId={event._id} title={event.title} />
           </div>
         </div>
       </section>
