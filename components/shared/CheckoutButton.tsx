@@ -6,6 +6,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button'
 import Checkout from './Checkout'
+import { Ticket } from 'lucide-react';
 
 const CheckoutButton = ({ event, userId }: { event: IEvent, userId: string }) => {
   const hasEventFinished = new Date(event.endDateTime) < new Date();
@@ -27,15 +28,15 @@ const CheckoutButton = ({ event, userId }: { event: IEvent, userId: string }) =>
   
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 mt-8">
       {/* If we are here, the user is NOT the creator and the event is NOT finished */}
       
       <SignedOut>
-        <Button asChild className="button bg-purple-600 rounded-full" size="lg">
-          <Link href="/sign-in">
-            Get Tickets
-          </Link>
-        </Button>
+        
+        <button className=" mt-5 flex items-center justify-center gap-2 w-full py-3 px-6 text-white font-semibold rounded-md bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/30 hover:-translate-y-0.5 transition-all">
+  <Ticket className="w-5 h-5" />
+  <span>Buy Ticket</span>
+</button>
       </SignedOut>
 
       <SignedIn>

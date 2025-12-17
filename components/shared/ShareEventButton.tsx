@@ -1,31 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Share2, Check } from "lucide-react";
+import { Share2, Check, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
 export default function ShareEventButton({
   eventId,
-  
   title,
 }: {
   eventId: string;
   title: string;
 }) {
-  
   const [copied, setCopied] = useState(false);
-  console.log(eventId)
-
-  // ✅ Build share URL safely using env variable
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "";
   const shareUrl = `${baseUrl}/events/${eventId}`;
 
-
   const handleShare = async () => {
-    // 📱 If the device supports native sharing (mobile)
+    // 📱 Mobile Native Share
     if (navigator.share) {
-        console.log(eventId)
       try {
         await navigator.share({
           title,
@@ -38,26 +30,36 @@ export default function ShareEventButton({
       return;
     }
 
-    // 💻 Desktop fallback → Copy to clipboard
+    // 💻 Desktop Clipboard Copy
     navigator.clipboard.writeText(shareUrl);
     setCopied(true);
-
-    toast.success("Link Copied");
-
-    setTimeout(() => setCopied(false), 1800);
+    toast.success("Link Copied to clipboard!");
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <Button
-      variant="outline"
+    <button
       onClick={handleShare}
-      className="flex items-center gap-2 cursor-pointer"
+      className="group w-full flex items-center justify-between rounded-xl bg-white px-4 py-3 shadow-sm hover:shadow-md transition-all border border-gray-100"
     >
-      {/* Dynamic Icon Swapping */}
-      {copied ? <Check size={16} /> : <Share2 size={16} />}
-      
-      {/* Dynamic Text */}
-      {copied ? "Copied" : "Share"}
-    </Button>
+      <div className="flex items-center gap-3">
+        {/* Icon Box */}
+        <div className={`p-2 rounded-lg transition-colors ${
+          copied ? "bg-green-100 text-green-600" : "bg-blue-100 text-blue-600"
+        }`}>
+          {copied ? <Check className="w-5 h-5" /> : <Share2 className="w-5 h-5" />}
+        </div>
+        
+        {/* Text */}
+        <span className="font-semibold text-gray-800">
+          {copied ? "Link Copied!" : "Share Event"}
+        </span>
+      </div>
+
+      {/* Arrow / Status Indicator */}
+      <ArrowRight className={`w-4 h-4 text-gray-400 transition-transform ${
+        !copied && "group-hover:translate-x-1"
+      }`} />
+    </button>
   );
 }

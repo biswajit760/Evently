@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
+import { Ticket } from 'lucide-react' // <--- 1. Import the icon
 
 import { IEvent } from '@/lib/database/models/event.model'
 import { Button } from '../ui/button'
@@ -40,8 +41,16 @@ const Checkout = ({ event, userId }: { event: IEvent, userId: string }) => {
 
   return (
     <form action={onCheckout}>
-      <Button type="submit" role="link" size="lg" className="button sm:w-fit">
-        {event.isFree ? 'Get Ticket' : 'Buy Ticket'}
+      <Button 
+        type="submit" 
+        role="link" 
+        size="lg" 
+        className="flex items-center justify-center gap-2 w-full py-6 text-white font-semibold rounded-lg bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/30 hover:-translate-y-0.5 transition-all"
+      >
+        <Ticket className="w-5 h-5" />
+        <span className="text-lg">
+          {event.isFree ? 'Get Ticket' : 'Buy Ticket'}
+        </span>
       </Button>
     </form>
   )

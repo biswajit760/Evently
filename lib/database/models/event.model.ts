@@ -13,6 +13,7 @@ export interface IEvent extends Document {
   url?: string;
   category: Types.ObjectId;
   organizer: Types.ObjectId;
+  viewCount: number;
 }
 
 const EventSchema = new Schema<IEvent>(
@@ -28,6 +29,10 @@ const EventSchema = new Schema<IEvent>(
     url: { type: String },
     category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
     organizer: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    viewCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
