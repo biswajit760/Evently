@@ -121,21 +121,19 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
     }
   }
 
-  // FIX 1: Added 'relative' here. 
-  // This ensures the absolute icon is positioned relative to THIS box, not the page.
-  const inputStyles = "h-12 bg-slate-50 border border-slate-200 rounded-md focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-500 transition-all duration-200 flex items-center relative";
-  
-  const iconStyles = "absolute left-4 top-3.5 h-5 w-5 text-gray-600 z-10";
+  // Styles defined here to reuse and avoid cluttering JSX
+  const inputStyles = "h-12 bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-500 transition-all duration-200 flex items-center relative";
+  const iconStyles = "absolute left-4 top-3.5 h-5 w-5 text-gray-600 dark:text-zinc-400 z-10";
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 space-y-12 animate-fade-in pb-10">
         
         {/* SECTION: GENERAL INFO */}
-        <div className="flex flex-col gap-8 bg-white border border-slate-500 rounded-xl p-8 md:p-10 shadow-xl shadow-slate-100/50">
-          <div className="border-b border-slate-100 pb-4">
-            <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Event Details</h2>
-            <p className="text-slate-500 text-sm mt-1">The core information about your event.</p>
+        <div className="flex flex-col gap-8 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-8 md:p-10 shadow-xl shadow-slate-100/50 dark:shadow-none">
+          <div className="border-b border-slate-100 dark:border-zinc-800 pb-4">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Event Details</h2>
+            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">The core information about your event.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -146,14 +144,14 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               name="title"
               render={({ field }) => (
                 <FormItem className="col-span-2 md:col-span-1">
-                  <FormLabel className="text-slate-700 font-semibold">Event Title</FormLabel>
+                  <FormLabel className="text-slate-700 dark:text-zinc-300 font-semibold">Event Title</FormLabel>
                   <FormControl>
                     <div className="relative group">
                       <Type className={iconStyles} />
                       <Input 
                         {...field} 
                         placeholder="e.g. Next.js World Conference" 
-                        className="pl-12 h-12 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 font-medium placeholder:text-slate-400" 
+                        className="pl-12 h-12 bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-white focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 font-medium placeholder:text-slate-400 dark:placeholder:text-zinc-500" 
                       />
                     </div>
                   </FormControl>
@@ -168,11 +166,11 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               name="categoryId"
               render={({ field }) => (
                 <FormItem className="col-span-2 md:col-span-1">
-                  <FormLabel className="text-slate-700 font-semibold">Category</FormLabel>
+                  <FormLabel className="text-slate-700 dark:text-zinc-300 font-semibold">Category</FormLabel>
                   <FormControl>
                     <div className="relative">
                        <Layers className={iconStyles} />
-                       <div className="pl-12 h-12 flex items-center bg-slate-50 border border-slate-200 rounded-md focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-500 transition-all">
+                       <div className="pl-12 h-12 flex items-center bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-500 transition-all">
                           <Dropdown value={field.value} onChangeHandler={field.onChange} />
                        </div>
                     </div>
@@ -188,17 +186,17 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               name="description"
               render={({ field }) => (
                 <FormItem className="col-span-2">
-                  <FormLabel className="text-slate-700 font-semibold">Description</FormLabel>
+                  <FormLabel className="text-slate-700 dark:text-zinc-300 font-semibold">Description</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <div className="absolute top-0 left-0 right-0 h-10 bg-slate-50 border-b border-slate-200 rounded-t-md flex items-center gap-2 px-4 space-x-2 z-10">
-                         <FileText className="w-4 h-4 text-gray-500" />
-                         <span className=" text-xs text-slate-400 font-medium">Write something amazing...</span>
+                      <div className="absolute top-0 left-0 right-0 h-10 bg-slate-50 dark:bg-zinc-950 border-b border-slate-200 dark:border-zinc-800 rounded-t-md flex items-center gap-2 px-4 space-x-2 z-10">
+                          <FileText className="w-4 h-4 text-gray-500 dark:text-zinc-500" />
+                          <span className=" text-xs text-slate-400 dark:text-zinc-500 font-medium">Write something amazing...</span>
                       </div>
                       <Textarea
                         {...field}
                         placeholder="Describe event agenda, speakers, goals, etc."
-                        className="min-h-40 pt-12 resize-none bg-white border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 rounded-b-md"
+                        className="min-h-40 pt-12 resize-none bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-white focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 rounded-b-md placeholder:text-slate-400 dark:placeholder:text-zinc-600"
                       />
                     </div>
                   </FormControl>
@@ -213,9 +211,9 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               name="imageUrl"
               render={({ field }) => (
                 <FormItem className="col-span-2">
-                  <FormLabel className="text-slate-700 font-semibold">Event Banner</FormLabel>
+                  <FormLabel className="text-slate-700 dark:text-zinc-300 font-semibold">Event Banner</FormLabel>
                   <FormControl>
-                    <div className="group border-2 border-dashed border-slate-200 hover:border-indigo-500/50 hover:bg-slate-50/50 rounded-xl p-6 transition-all duration-200 text-center">
+                    <div className="group border-2 border-dashed border-slate-200 dark:border-zinc-800 hover:border-indigo-500/50 hover:bg-slate-50/50 dark:hover:bg-zinc-900/50 rounded-xl p-6 transition-all duration-200 text-center">
                       <FileUploader
                         onFieldChange={field.onChange}
                         imageUrl={field.value}
@@ -231,10 +229,10 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         </div>
 
         {/* SECTION: LOGISTICS */}
-        <div className="flex flex-col gap-8 bg-white border border-slate-500 rounded-xl p-8 md:p-10 shadow-xl shadow-slate-100/50">
-          <div className="border-b border-slate-100 pb-4">
-            <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Time & Place</h2>
-            <p className="text-slate-500 text-sm mt-1">Help attendees find their way.</p>
+        <div className="flex flex-col gap-8 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-8 md:p-10 shadow-xl shadow-slate-100/50 dark:shadow-none">
+          <div className="border-b border-slate-100 dark:border-zinc-800 pb-4">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Time & Place</h2>
+            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Help attendees find their way.</p>
           </div>
 
           <div className="flex flex-col gap-8">
@@ -245,14 +243,14 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                 name="location"
                 render={({ field }) => (
                   <FormItem className="col-span-2 md:col-span-1">
-                    <FormLabel className="text-slate-700 font-semibold">Location</FormLabel>
+                    <FormLabel className="text-slate-700 dark:text-zinc-300 font-semibold">Location</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <MapPin className={iconStyles} />
                         <Input
                           {...field}
                           placeholder="City, venue, or online link..."
-                          className="pl-12 h-12 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 font-medium"
+                          className="pl-12 h-12 bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-white focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 font-medium placeholder:text-slate-400 dark:placeholder:text-zinc-500"
                         />
                       </div>
                     </FormControl>
@@ -267,8 +265,8 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                 name="url"
                 render={({ field }) => (
                   <FormItem className="col-span-2 md:col-span-1">
-                    <FormLabel className="text-slate-700 font-semibold">
-                      Important Link <span className="text-slate-400 font-normal text-xs">(Optional)</span>
+                    <FormLabel className="text-slate-700 dark:text-zinc-300 font-semibold">
+                      Important Link <span className="text-slate-400 dark:text-zinc-500 font-normal text-xs">(Optional)</span>
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
@@ -276,7 +274,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                         <Input
                           {...field}
                           placeholder="https://..."
-                          className="pl-12 h-12 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 font-medium"
+                          className="pl-12 h-12 bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-white focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 font-medium placeholder:text-slate-400 dark:placeholder:text-zinc-500"
                         />
                       </div>
                     </FormControl>
@@ -286,7 +284,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               />
             </div>
 
-            {/* DATE PICKERS - Fixed for Mobile */}
+            {/* DATE PICKERS */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Start Date */}
               <FormField
@@ -294,19 +292,18 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                 name="startDateTime"
                 render={({ field }) => (
                   <FormItem className="w-full relative z-20"> 
-                    <FormLabel className="text-slate-700 font-semibold">Start</FormLabel>
+                    <FormLabel className="text-slate-700 dark:text-zinc-300 font-semibold">Start</FormLabel>
                     <FormControl>
                       <div className={inputStyles}>
-                        <CalendarIcon className="absolute left-4 top-3.5 h-5 w-5 text-indigo-500 z-10" />
-                        {/* Added flex-1 and w-full to ensure it fills the parent container */}
+                        <CalendarIcon className="absolute left-4 top-3.5 h-5 w-5 text-indigo-500 dark:text-indigo-400 z-10" />
                         <div className="flex-1 w-full"> 
                           <DatePicker
                             selected={field.value}
                             onChange={(date) => field.onChange(date)}
                             showTimeSelect
                             dateFormat="MMMM d, yyyy - h:mm aa"
-                            wrapperClassName="w-full datePickerWrapper" // Helper class
-                            className="w-full pl-12 bg-transparent outline-none text-slate-700 placeholder:text-slate-400 font-medium cursor-pointer h-12 py-3"
+                            wrapperClassName="w-full datePickerWrapper"
+                            className="w-full pl-12 bg-transparent outline-none text-slate-700 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 font-medium cursor-pointer h-12 py-3"
                           />
                         </div>
                       </div>
@@ -322,11 +319,10 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                 name="endDateTime"
                 render={({ field }) => (
                   <FormItem className="w-full relative z-10">
-                    <FormLabel className="text-slate-700 font-semibold">End</FormLabel>
+                    <FormLabel className="text-slate-700 dark:text-zinc-300 font-semibold">End</FormLabel>
                     <FormControl>
                       <div className={inputStyles}>
-                        <CalendarIcon className="absolute left-4 top-3.5 h-5 w-5 text-gray-600 z-10" />
-                         {/* Added flex-1 and w-full here as well */}
+                        <CalendarIcon className="absolute left-4 top-3.5 h-5 w-5 text-gray-600 dark:text-zinc-400 z-10" />
                         <div className="flex-1 w-full">
                           <DatePicker
                             selected={field.value}
@@ -334,7 +330,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                             showTimeSelect
                             dateFormat="MMMM d, yyyy - h:mm aa"
                             wrapperClassName="w-full datePickerWrapper" 
-                            className="w-full pl-12 bg-transparent outline-none text-slate-700 placeholder:text-slate-400 font-medium cursor-pointer h-12 py-3"
+                            className="w-full pl-12 bg-transparent outline-none text-slate-700 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 font-medium cursor-pointer h-12 py-3"
                           />
                         </div>
                       </div>
@@ -348,13 +344,12 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         </div>
 
         {/* SECTION: TICKETING */}
-        <div className="flex flex-col gap-8 bg-white border border-slate-500 rounded-xl p-8 md:p-10 shadow-xl shadow-slate-100/50">
-          <div className="border-b border-slate-100 pb-4">
-             <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Ticketing</h2>
-             <p className="text-slate-500 text-sm mt-1">Set your price and availability.</p>
+        <div className="flex flex-col gap-8 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-8 md:p-10 shadow-xl shadow-slate-100/50 dark:shadow-none">
+          <div className="border-b border-slate-100 dark:border-zinc-800 pb-4">
+             <h2 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Ticketing</h2>
+             <p className="text-slate-500 dark:text-zinc-400 text-sm mt-1">Set your price and availability.</p>
           </div>
 
-          {/* FIX 2: Changed to Grid for perfect alignment */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             
             {/* Price */}
@@ -363,7 +358,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               name="price"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel className="text-slate-700 font-semibold">Price</FormLabel>
+                  <FormLabel className="text-slate-700 dark:text-zinc-300 font-semibold">Price</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <DollarSign className={iconStyles} />
@@ -372,7 +367,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                         placeholder="0.00"
                         disabled={form.watch("isFree")}
                         {...field}
-                        className="pl-12 h-12 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 font-medium"
+                        className="pl-12 h-12 bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-white focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 font-medium placeholder:text-slate-400 dark:placeholder:text-zinc-500"
                       />
                     </div>
                   </FormControl>
@@ -387,9 +382,8 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               name="isFree"
               render={({ field }) => (
                 <FormItem className="w-full">
-                   {/* This invisible label forces the checkbox down to align PERFECTLY with the Price input */}
                    <FormLabel className="opacity-0 font-semibold">Free Ticket</FormLabel>
-                   <div className="flex gap-5 items-center h-12 px-4 border border-slate-200 rounded-md bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer">
+                   <div className="flex gap-5 items-center h-12 px-4 border border-slate-200 dark:border-zinc-800 rounded-md bg-slate-50 dark:bg-zinc-950 hover:bg-slate-100 dark:hover:bg-zinc-900 transition-colors cursor-pointer">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
@@ -397,10 +391,10 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                           field.onChange(checked);
                           if (checked) form.setValue("price", "0");
                         }}
-                        className="mr-3 h-5 w-5 border-2 border-slate-300 data-[state=checked]:bg-indigo-600 data-[state=checked]:border-indigo-600"
+                        className="mr-3 h-5 w-5 border-2 border-slate-300 dark:border-zinc-600 data-[state=checked]:bg-indigo-600 data-[state=checked]:border-indigo-600"
                       />
                     </FormControl>
-                    <FormLabel className="font-medium text-slate-700 cursor-pointer w-full">
+                    <FormLabel className="font-medium text-slate-700 dark:text-zinc-200 cursor-pointer w-full">
                       This is a Free Ticket
                     </FormLabel>
                   </div>
@@ -411,7 +405,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         </div>
 
         {/* SUBMIT BUTTON */}
-        <div className=" p-4 bg-white border-t border-slate-200 flex justify-center md:static md:bg-transparent md:border-none md:p-0 z-50">
+        <div className="p-4 bg-white dark:bg-transparent border-t border-slate-200 dark:border-none flex justify-center md:static md:p-0 z-50">
           <Button
             type="submit"
             disabled={form.formState.isSubmitting}

@@ -13,6 +13,7 @@ const Header = () => {
           <Image 
             src="/assets/images/logo.svg" width={128} height={38}
             alt="Evently logo" 
+            className="dark:invert" 
           />
         </Link>
 

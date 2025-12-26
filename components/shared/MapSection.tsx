@@ -50,8 +50,19 @@ export default function MapSection({ locationName }: { locationName: string }) {
         // We call the Nominatim API with the location string.
         // encodeURIComponent ensures special characters in addresses don't break the URL.
         const response = await fetch(
-          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationName)}`
-        );
+  `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationName)}`,
+  {
+    headers: {
+      // Replace with your actual app name and a real email
+      'User-Agent': 'Evently-App/1.0 (biswajitmahany7@gmail.com)'
+    }
+  }
+);
+
+// Check if the server actually sent back a successful response
+if (!response.ok) {
+  throw new Error(`Geocoding failed: ${response.status}`);
+}
         const data = await response.json();
 
         if (data && data.length > 0) {
@@ -91,13 +102,12 @@ export default function MapSection({ locationName }: { locationName: string }) {
   return (
     // Inside your MapSection component return statement
 <div className="group relative mt-4 h-[250px] w-full rounded-xl  overflow-hidden border-2 border-gray-100 shadow-inner">
-  <MapContainer center={coords} zoom={5} className="h-full w-full z-0">
+  <MapContainer center={coords} zoom={15} className="h-full w-full z-0">
+    {/* CartoDB Positron is a beautiful, clean, light-colored map */}
     <TileLayer 
-  // CartoDB Positron is a beautiful, clean, light-colored map
-  url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-/>
-    <Marker position={coords} icon={icon} />
+      url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    />    <Marker position={coords} icon={icon} />
     <RecenterMap coords={coords} />
   </MapContainer>
 
@@ -106,12 +116,12 @@ export default function MapSection({ locationName }: { locationName: string }) {
     <a 
       href={`https://www.google.com/maps/search/?api=1&query=${coords[0]},${coords[1]}`}
       target="_blank"
+      rel="noopener noreferrer"
       className="bg-white/90 backdrop-blur-sm text-indigo-600 text-xs font-bold px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 hover:bg-white transition-colors"
     >
       <ExternalLink className="w-3 h-3" />
       Directions
-    </a>
-  </div>
+    </a>  </div>
 </div>
   );
 }

@@ -22,7 +22,7 @@ const MobileNav = () => {
             alt="menu"
             width={26}
             height={26}
-            className="cursor-pointer"
+            className="cursor-pointer dark:invert" 
           />
         </SheetTrigger>
 
@@ -38,6 +38,7 @@ const MobileNav = () => {
             alt="logo"
             width={128}
             height={38}
+            className="dark:invert"
           />
           <Separator className="border border-gray-200 " />
           <NavItems />

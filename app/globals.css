@@ -1,10 +1,47 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "uploadthing/tw/v4";
-/* If you need to import uploadthing css from node_modules, use a standard @import: */
-@import "../node_modules/@uploadthing/react/dist"; /* <-- depends on your project structure */
+/* @import "../node_modules/@uploadthing/react/dist"; */
 
+/* 1. ENABLE CLASS-BASED DARK MODE FOR TAILWIND V4 */
+@custom-variant dark (&:where(.dark, .dark *));
 
+/* 2. MAP YOUR CSS VARIABLES TO TAILWIND UTILITIES */
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+/* 3. YOUR BASE VARIABLES (SHADCN UI) */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -36,11 +73,14 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+    
+    /* Font variable default */
+    --font-poppins: ui-sans-serif, system-ui, sans-serif; 
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+ --background: 0 0% 0%;
+  --foreground: 0 0% 98%;
 
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
@@ -67,7 +107,16 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
   }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
+
+/* ========================================== CUSTOM STYLES */
 
 * {
   scroll-behavior: smooth;
@@ -75,25 +124,23 @@
 
 body {
   font-family: var(--font-poppins);
-  min-height: 100vh;}
-
-.filter-grey {
-  filter: brightness(0) saturate(100%) invert(47%) sepia(0%) saturate(217%)
-    hue-rotate(32deg) brightness(98%) contrast(92%);
+  min-height: 100vh;
 }
 
-/* ========================================== TAILWIND STYLES */
-/* Replaced @apply rules with explicit CSS properties and media queries */
+/* .filter-grey {
+  filter: brightness(0) saturate(100%) invert(47%) sepia(0%) saturate(217%)
+    hue-rotate(32deg) brightness(98%) contrast(92%);
+} */
 
 .wrapper {
   max-width: 80rem;
   width: 100%;
-  padding: 1.25rem; /* 20px */
+  padding: 1.25rem;
 }
 
 @media (min-width: 768px) {
   .wrapper {
-    padding-left: 2.5rem; /* 40px */
+    padding-left: 2.5rem;
     padding-right: 2.5rem;
   }
 }
@@ -125,7 +172,6 @@ body {
 }
 
 /* TYPOGRAPHY */
-/* 64 */
 .h1-bold {
   font-weight: 700;
   font-size: 60px;
@@ -146,7 +192,6 @@ body {
   }
 }
 
-/* 40 */
 .h2-bold {
   font-weight: 700;
   font-size: 32px;
@@ -187,7 +232,6 @@ body {
   }
 }
 
-/* 36 */
 .h3-bold {
   font-weight: 700;
   font-size: 28px;
@@ -214,21 +258,18 @@ body {
   }
 }
 
-/* 32 */
 .h4-medium {
   font-weight: 500;
   font-size: 32px;
   line-height: 40px;
 }
 
-/* 28 */
 .h5-bold {
   font-weight: 700;
   font-size: 28px;
   line-height: 36px;
 }
 
-/* 24 */
 .p-bold-24 {
   font-weight: 700;
   font-size: 24px;
@@ -247,12 +288,11 @@ body {
   line-height: 36px;
 }
 
-/* 20 */
 .p-bold-20 {
   font-weight: 700;
   font-size: 20px;
   line-height: 30px;
-  letter-spacing: 0.02em; /* approx tracking-[2%] */
+  letter-spacing: 0.02em;
 }
 
 .p-semibold-20 {
@@ -275,7 +315,6 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* 18 */
 .p-semibold-18 {
   font-weight: 600;
   font-size: 18px;
@@ -296,7 +335,6 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* 16 */
 .p-bold-16 {
   font-weight: 700;
   font-size: 16px;
@@ -309,14 +347,12 @@ body {
   line-height: 24px;
 }
 
-/* p-regular-16 used by a few components */
 .p-regular-16 {
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
 }
 
-/* 14 */
 .p-semibold-14 {
   font-weight: 600;
   font-size: 14px;
@@ -335,24 +371,22 @@ body {
   line-height: 20px;
 }
 
-/* 12 */
 .p-medium-12 {
   font-weight: 500;
   font-size: 12px;
   line-height: 20px;
 }
 
-/* SHADCN OVERRIDES */
-/* Replaced @apply with plain CSS (duplicated p-regular-16 where used) */
+/* COMPONENT OVERRIDES */
 
 .select-field {
   width: 100%;
-  background-color: #f9fafb; /* gray-50 */
+  background-color: #f9fafb;
   height: 54px;
   border-radius: 9999px;
-  padding-left: 1.25rem; /* px-5 */
+  padding-left: 1.25rem;
   padding-right: 1.25rem;
-  padding-top: 0.75rem; /* py-3 */
+  padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   border: none;
   font-size: 16px;
@@ -361,7 +395,7 @@ body {
 }
 
 .select-field::placeholder {
-  color: #6b7280; /* gray-500 */
+  color: #6b7280;
 }
 
 .select-field:focus,
@@ -370,13 +404,12 @@ body {
   box-shadow: none;
 }
 
-/* input-field */
 .input-field {
   width: 100%;
-  background-color: #f9fafb; /* gray-50 */
+  background-color: #f9fafb;
   height: 54px;
   border-radius: 9999px;
-  padding-left: 1rem; /* px-4 */
+  padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -387,7 +420,7 @@ body {
 }
 
 .input-field::placeholder {
-  color: #6b7280; /* gray-500 */
+  color: #6b7280;
 }
 
 .input-field:focus,
@@ -396,12 +429,11 @@ body {
   box-shadow: none;
 }
 
-/* textarea */
 .textarea {
-  background-color: #f9fafb; /* gray-50 */
+  background-color: #f9fafb;
   display: flex;
   flex: 1 1 auto;
-  padding-left: 1.25rem; /* px-5 */
+  padding-left: 1.25rem;
   padding-right: 1.25rem;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -412,7 +444,7 @@ body {
 }
 
 .textarea::placeholder {
-  color: #6b7280; /* gray-500 */
+  color: #6b7280;
 }
 
 .textarea:focus,
@@ -421,7 +453,6 @@ body {
   box-shadow: none;
 }
 
-/* button */
 .button {
   border-radius: 9999px;
   height: 54px;
@@ -431,9 +462,9 @@ body {
   padding-left: 2rem;
   padding-right: 2rem;
   background-color: #9810fa;
+  color: #ffffff; /* Added for contrast */
 }
 
-/* select-item */
 .select-item {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -441,17 +472,15 @@ body {
 }
 
 .select-item:focus {
-  background-color: rgba(99, 102, 241, 0.06); /* subtle primary-focus fallback */
+  background-color: rgba(99, 102, 241, 0.06);
   outline: none;
 }
 
-/* toggle-switch */
 .toggle-switch {
-  background-color: #d1d5db; /* gray-300 */
+  background-color: #d1d5db;
 }
 
-/* ========================================== CLERK STYLES */
-/* Keep !important for third-party overrides */
+/* CLERK STYLES */
 .cl-logoImage {
   height: 50px;
 }
@@ -474,8 +503,7 @@ body {
   background-color: #705CF7;
 }
 
-/* ========================================== REACT-DATEPICKER STYLES */
-/* Keep !important for third-party overrides */
+/* REACT-DATEPICKER STYLES */
 .datePicker {
   width: 100%;
 }
@@ -499,24 +527,17 @@ body {
 
 .container {
   display: flex;
-  flex-direction: row; /* Default: Row for Desktop */
+  flex-direction: row;
   gap: 20px;
 }
 
-/* Force Column on Tablet (iPad) and Mobile */
 @media (max-width: 1024px) {
   .container {
     flex-direction: column;
   }
 }
 
-
-/* globals.css */
-
-/* Default state (Mobile First): 
-   - Desktop nav is hidden
-   - Mobile trigger is visible 
-*/
+/* NAV STYLES */
 .nav-desktop-wrapper {
   display: none;
 }
@@ -525,20 +546,16 @@ body {
   display: block;
 }
 
-/* Flex direction for the list items (Stack vertically on mobile) */
 .custom-nav-list {
   display: flex;
   width: 100%;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.25rem; /* equivalent to gap-5 */
+  gap: 1.25rem;
   margin-left: 1rem;
 }
 
-/* BREAKPOINT: 768px (Standard Tablet/Desktop split) */
 @media (min-width: 768px) {
-  
-  /* Show desktop nav */
   .nav-desktop-wrapper {
     display: flex;
     justify-content: space-between;
@@ -546,20 +563,17 @@ body {
     max-width: 20rem; 
   }
 
-  /* Hide mobile trigger */
   .nav-mobile-trigger {
     display: none;
   }
 
-  /* Change list direction to row for desktop */
   .custom-nav-list {
     flex-direction: row;
-    align-items: center; /* Center items vertically */
+    align-items: center;
     justify-content: space-between;
   }
 }
 
-
 .alert-dialog{
-  margin-right: 50rem ;
+  margin-right: 50rem;
 }

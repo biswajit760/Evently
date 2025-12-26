@@ -12,14 +12,13 @@ import { ICategory } from "@/lib/database/models/category.model";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Filter } from "lucide-react"; // Import standard icon
+import { Filter } from "lucide-react"; 
 
 const CategoryFilter = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  // SYNC: Get current category from URL to ensure dropdown matches state
   const currentCategory = searchParams.get('category') || 'All';
 
   useEffect(() => {
@@ -52,18 +51,26 @@ const CategoryFilter = () => {
   return (
     <Select 
         onValueChange={(value: string) => onSelectCategory(value)} 
-        defaultValue={currentCategory} // FIX: Bind to URL state
-        
+        defaultValue={currentCategory} 
     >
-      <SelectTrigger className="w-full bg-gray-200 rounded-4xl h-[60px] border border-gray-400 shadow-none focus:ring-0 focus:ring-offset-0  px-4 py-2  text-gray-600">
-        <div className="flex py-3 items-center gap-2">
-            <Filter size={24} className="text-gray-500" />
+      <SelectTrigger className="w-full rounded-full h-[60px] px-5 
+        bg-gray-50 border-gray-200 text-gray-600       /* Light Mode */
+        dark:bg-zinc-900 dark:border-zinc-800 dark:text-gray-300 /* Dark Mode */
+        border shadow-none focus:ring-0 focus:ring-offset-0 transition-all hover:bg-white dark:hover:bg-zinc-800/80"
+      >
+        <div className="flex items-center gap-2">
+            <Filter size={20} className="text-gray-400 dark:text-zinc-500" />
             <SelectValue placeholder="Select Category" />
         </div>
       </SelectTrigger>
       
-      <SelectContent className="bg-gray-50 border-gray-100 shadow-xl rounded-xl">
-        <SelectItem value="All" className="py-3 px-4 text-gray-800 focus:bg-gray-300 focus:text-black cursor-pointer">
+      <SelectContent className="bg-white border-gray-100 text-gray-700 shadow-xl rounded-xl
+                                dark:bg-zinc-900 dark:border-zinc-800 dark:text-gray-300 dark:shadow-none">
+        <SelectItem 
+            value="All" 
+            className="py-3 px-4 cursor-pointer focus:bg-gray-50 focus:text-indigo-600 
+                       dark:focus:bg-zinc-800 dark:focus:text-indigo-400"
+        >
             All Categories
         </SelectItem>
 
@@ -71,7 +78,8 @@ const CategoryFilter = () => {
           <SelectItem 
             value={category.name} 
             key={category.name} 
-            className="py-3 px-4 text-gray-800 focus:bg-gray-300 focus:text-black focus:font-bold cursor-pointer"
+            className="py-3 px-4 cursor-pointer focus:bg-gray-50 focus:text-indigo-600 
+                       dark:focus:bg-zinc-800 dark:focus:text-indigo-400"
           >
             {category.name}
           </SelectItem>

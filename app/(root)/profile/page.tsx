@@ -9,19 +9,14 @@ import Link from 'next/link'
 import React from 'react'
 
 const ProfilePage = async ({ searchParams }: SearchParamProps) => {
-  // 1. Get Auth Session (Standard Clerk Pattern)
   const { sessionClaims } = await auth();
   const userId = sessionClaims?.userId as string;
 
-  // 2. Await searchParams (REQUIRED in Next.js 16)
-  // In v16, searchParams is a Promise. You cannot read properties directly like searchParams.page
   const resolvedSearchParams = await searchParams;
   
   const ordersPage = Number(resolvedSearchParams?.ordersPage) || 1;
   const eventsPage = Number(resolvedSearchParams?.eventsPage) || 1;
 
-  // 3. Fetch Data in Parallel
-  // This reduces loading time by running both DB queries at the same time
   const [orders, organizedEvents] = await Promise.all([
     getOrdersByUser({ userId, page: ordersPage }),
     getEventsByUser({ userId, page: eventsPage })
@@ -32,11 +27,13 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
   return (
     <>
       {/* My Tickets */}
-      <section className="bg-purple-50 bg-dotted-pattern bg-cover bg-center py-5 md:py-10">
+      <section className="bg-purple-50 dark:bg-zinc-900 bg-dotted-pattern bg-cover bg-center py-5 md:py-10 border-b border-purple-100 dark:border-zinc-800">
         <div className="wrapper flex items-center justify-between">
-          <h3 className="h3-bold text-center sm:text-left">My Tickets</h3>
+          <h3 className="h3-bold text-center sm:text-left text-slate-900 dark:text-white">
+            My Tickets
+          </h3>
 
-          <Button asChild size="lg" className="button hidden sm:flex bg-purple-600 text-white">
+          <Button asChild size="lg" className="button hidden sm:flex bg-purple-600 hover:bg-purple-700 text-white transition-all">
             <Link href="/#events">
               Explore More Events
             </Link>
@@ -58,10 +55,12 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
       </section>
 
       {/* Events Organized */}
-      <section className="bg-purple-50 bg-dotted-pattern bg-cover bg-center py-5 md:py-10">
+      <section className="bg-purple-50 dark:bg-zinc-900 bg-dotted-pattern bg-cover bg-center py-5 md:py-10 border-b border-purple-100 dark:border-zinc-800">
         <div className="wrapper flex items-center justify-between">
-          <h3 className='h3-bold text-center sm:text-left'>Events Organized</h3>
-          <Button asChild size="lg" className="button hidden sm:flex bg-purple-600 text-white">
+          <h3 className='h3-bold text-center sm:text-left text-slate-900 dark:text-white'>
+            Events Organized
+          </h3>
+          <Button asChild size="lg" className="button hidden sm:flex bg-purple-600 hover:bg-purple-700 text-white transition-all">
             <Link href="/events/create">
               Create New Event
             </Link>

@@ -3,6 +3,7 @@ import { headerLinks } from '@/constants'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
+import { ModeToggle } from './ModeToggle'
 
 const NavItems = () => {
     const pathname = usePathname();
@@ -21,6 +22,7 @@ const NavItems = () => {
                 </li>
             )
          })}
+         <ModeToggle />
     </ul>
   )
 }

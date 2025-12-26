@@ -26,9 +26,12 @@ const Collection = ({
   return (
     <div>
         {data.length === 0 ? (
-          <div className="flex-center wrapper min-h-[200px] w-full flex-col gap-3 rounded-[14px] bg-grey-50 py-28 text-center" >
-            <h3 className="p-bold-20 md:h5-bold">{emptyTitle}</h3>
-            <p className="p-regular-14" >{emptyStateSubtext}</p>
+          <div className="flex-center wrapper min-h-[200px] w-full flex-col gap-3 rounded-[14px] 
+            bg-grey-50 dark:bg-zinc-900 border border-transparent dark:border-zinc-800 
+            py-28 text-center" 
+          >
+            <h3 className="p-bold-20 md:h5-bold text-gray-900 dark:text-white">{emptyTitle}</h3>
+            <p className="p-regular-14 text-gray-600 dark:text-gray-400">{emptyStateSubtext}</p>
           </div>
         ) : (
           <div>
