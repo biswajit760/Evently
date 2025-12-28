@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { string, z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -58,6 +58,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
           price: event.price?.toString(),
           startDateTime: new Date(event.startDateTime),
           endDateTime: new Date(event.endDateTime),
+          categoryId: event.category._id.toString() || 'event.category'
         }
       : eventDefaultValues;
 
@@ -105,6 +106,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             imageUrl: uploadedImageUrl,
             _id: eventId!,
             price: Number(values.price),
+            categoryId: values.categoryId
           },
           path: `/events/${eventId}`,
         });
@@ -120,7 +122,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
       }
     }
   }
-
+  
   // Styles defined here to reuse and avoid cluttering JSX
   const inputStyles = "h-12 bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-500 transition-all duration-200 flex items-center relative";
   const iconStyles = "absolute left-4 top-3.5 h-5 w-5 text-gray-600 dark:text-zinc-400 z-10";

@@ -51,15 +51,18 @@ const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
   }, []);
 
   return (
-    <Select onValueChange={onChangeHandler} defaultValue={value}>
-      {/* FIX: Removed 'select-field' class. 
-         This class likely had a hardcoded background in globals.css that was blocking dark mode.
-      */}
-      <SelectTrigger className="w-full rounded-md h-[54px] px-4 py-3 text-base placeholder:text-gray-500 focus:ring-2 focus:ring-purple-500 focus:ring-offset-0 bg-slate-50 dark:bg-zinc-950 border border-slate-200  text-slate-900 dark:text-white">
+    <Select 
+        onValueChange={onChangeHandler} 
+        value={value} 
+        // FIX: Add a key that changes when categories load. 
+        // This forces the component to re-render correctly with the pre-selected value.
+        key={categories.length > 0 ? "loaded" : "loading"}
+    > 
+      <SelectTrigger className="w-full rounded-md h-[54px] px-4 py-3 text-base placeholder:text-gray-500 focus:ring-2 focus:ring-purple-500 focus:ring-offset-0 bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-white">
         <SelectValue placeholder="Select Category" />
       </SelectTrigger>
 
-      <SelectContent className="bg-white dark:bg-zinc-900 border-slate-100 shadow-xl !z-[50]">
+      <SelectContent className="bg-white dark:bg-zinc-900 border-slate-100 dark:border-zinc-800 shadow-xl !z-[50]">
         {categories.length > 0 && categories.map((category) => (
           <SelectItem 
             key={category._id} 
